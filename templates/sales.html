@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales - SmartCart</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- SmartCart CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+
+<body class="dashboard-body">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            🛒
+        </div>
+
+        <div>
+            <h2>SmartCart</h2>
+            <span>Management System</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <p class="nav-title">
+            MAIN MENU
+        </p>
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item"
+        >
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+
+        <!-- Products -->
+
+        <a
+            href="{{ url_for('products') }}"
+            class="nav-item"
+        >
+            <i class="fa-solid fa-box"></i>
+            <span>Products</span>
+        </a>
+
+
+        <!-- Billing -->
+
+        <a
+            href="{{ url_for('billing') }}"
+            class="nav-item"
+        >
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Billing</span>
+        </a>
+
+
+        <!-- Billing History -->
+
+        <a
+            href="{{ url_for('billing_history') }}"
+            class="nav-item"
+        >
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Billing History</span>
+        </a>
+
+
+        <!-- Sales -->
+
+        <a
+            href="{{ url_for('sales') }}"
+            class="nav-item active"
+        >
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Sales</span>
+        </a>
+
+
+        <!-- Reports -->
+
+        <a
+    href="{{ url_for('reports') }}"
+    class="nav-item"
+>
+    <i class="fa-solid fa-chart-pie"></i>
+    <span>Reports</span>
+</a>
+
+
+        <!-- System -->
+
+        <p class="nav-title settings-title">
+            SYSTEM
+        </p>
+
+
+        <!-- Settings -->
+
+        <a
+            href="#"
+            class="nav-item"
+        >
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+
+
+        <!-- Logout -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item logout-item"
+        >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                Sales
+            </h1>
+
+            <p>
+                Monitor your store's sales performance
+            </p>
+
+        </div>
+
+
+        <div class="user-profile">
+
+            <div class="notification">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+
+
+            <div class="profile-avatar">
+                A
+            </div>
+
+
+            <div class="profile-info">
+
+                <strong>
+                    Admin
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         SALES CONTENT
+    ================================================== -->
+
+    <section class="dashboard-content">
+
+
+        <!-- PAGE TITLE -->
+
+        <div class="mb-4">
+
+            <h2 class="mb-1">
+                Sales Overview
+            </h2>
+
+            <p class="text-muted mb-0">
+                Track your sales activity across different time periods.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <!-- TODAY'S SALES -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon sales-icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            Today's Sales
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(today_summary.total_sales) }}
+                        </h2>
+
+                        <small>
+                            {{ today_summary.total_bills }} bill(s) today
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- THIS WEEK -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orders-icon">
+                        <i class="fa-solid fa-calendar-week"></i>
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            This Week
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(week_summary.total_sales) }}
+                        </h2>
+
+                        <small>
+                            {{ week_summary.total_bills }} bill(s) this week
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- THIS MONTH -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon products-icon">
+                        <i class="fa-solid fa-calendar"></i>
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            This Month
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(month_summary.total_sales) }}
+                        </h2>
+
+                        <small>
+                            {{ month_summary.total_bills }} bill(s) this month
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL SALES -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon customers-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            Total Sales
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(overall_summary.total_sales) }}
+                        </h2>
+
+                        <small>
+                            {{ overall_summary.total_bills }} bill(s) overall
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DAILY SALES TREND
+        ================================================== -->
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-12">
+
+                <div class="dashboard-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                <i class="fa-solid fa-chart-line me-2"></i>
+                                Daily Sales Trend
+                            </h3>
+
+                            <p>
+                                Sales performance over the last 7 days
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            position: relative;
+                            height: 350px;
+                        "
+                    >
+
+                        <canvas
+                            id="dailySalesChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SALES COMPARISON + BILL SUMMARY
+        ================================================== -->
+
+        <div class="row g-4">
+
+
+            <!-- SALES COMPARISON -->
+
+            <div class="col-lg-8">
+
+                <div class="dashboard-card h-100">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Sales Comparison
+                            </h3>
+
+                            <p>
+                                Compare sales across different periods
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            position: relative;
+                            height: 350px;
+                        "
+                    >
+
+                        <canvas
+                            id="salesComparisonChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BILL SUMMARY -->
+
+            <div class="col-lg-4">
+
+                <div class="dashboard-card h-100">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Bill Summary
+                            </h3>
+
+                            <p>
+                                Number of bills generated
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            position: relative;
+                            height: 350px;
+                        "
+                    >
+
+                        <canvas
+                            id="billCountChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SALES ANALYTICS
+        ================================================== -->
+
+        <div class="dashboard-card mt-4">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+                        <i class="fa-solid fa-chart-column me-2"></i>
+                        Sales Analytics
+                    </h3>
+
+                    <p>
+                        SmartCart sales analytics
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row g-4">
+
+
+                <!-- TODAY'S AVERAGE -->
+
+                <div class="col-md-4">
+
+                    <div class="p-3 bg-light rounded">
+
+                        <small class="text-muted">
+                            Today's Average Bill
+                        </small>
+
+                        <h4 class="mt-2 mb-0">
+
+                            ₹{% if today_summary.total_bills > 0 %}
+
+                                {{ "%.2f"|format(
+                                    today_summary.total_sales /
+                                    today_summary.total_bills
+                                ) }}
+
+                            {% else %}
+
+                                0.00
+
+                            {% endif %}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- WEEKLY AVERAGE -->
+
+                <div class="col-md-4">
+
+                    <div class="p-3 bg-light rounded">
+
+                        <small class="text-muted">
+                            Weekly Average Bill
+                        </small>
+
+                        <h4 class="mt-2 mb-0">
+
+                            ₹{% if week_summary.total_bills > 0 %}
+
+                                {{ "%.2f"|format(
+                                    week_summary.total_sales /
+                                    week_summary.total_bills
+                                ) }}
+
+                            {% else %}
+
+                                0.00
+
+                            {% endif %}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MONTHLY AVERAGE -->
+
+                <div class="col-md-4">
+
+                    <div class="p-3 bg-light rounded">
+
+                        <small class="text-muted">
+                            Monthly Average Bill
+                        </small>
+
+                        <h4 class="mt-2 mb-0">
+
+                            ₹{% if month_summary.total_bills > 0 %}
+
+                                {{ "%.2f"|format(
+                                    month_summary.total_sales /
+                                    month_summary.total_bills
+                                ) }}
+
+                            {% else %}
+
+                                0.00
+
+                            {% endif %}
+
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     CHART.JS
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<script>
+
+    // ========================================================
+    // DATA FROM FLASK
+    // ========================================================
+
+    const dailySalesLabels =
+        {{ daily_sales
+            | map(attribute='sale_date')
+            | map('string')
+            | list
+            | tojson
+        }};
+
+
+    const dailySalesValues =
+        {{ daily_sales
+            | map(attribute='daily_sales')
+            | map('float')
+            | list
+            | tojson
+        }};
+
+
+    const todaySales =
+        {{ today_summary.total_sales | float | tojson }};
+
+
+    const weekSales =
+        {{ week_summary.total_sales | float | tojson }};
+
+
+    const monthSales =
+        {{ month_summary.total_sales | float | tojson }};
+
+
+    const overallSales =
+        {{ overall_summary.total_sales | float | tojson }};
+
+
+    const todayBills =
+        {{ today_summary.total_bills | int | tojson }};
+
+
+    const weekBills =
+        {{ week_summary.total_bills | int | tojson }};
+
+
+    const monthBills =
+        {{ month_summary.total_bills | int | tojson }};
+
+
+    const overallBills =
+        {{ overall_summary.total_bills | int | tojson }};
+
+
+
+    // ========================================================
+    // DAILY SALES TREND
+    // ========================================================
+
+    const dailySalesCanvas =
+        document.getElementById("dailySalesChart");
+
+
+    new Chart(
+        dailySalesCanvas,
+        {
+
+            type: "line",
+
+
+            data: {
+
+                labels: dailySalesLabels,
+
+
+                datasets: [
+
+                    {
+
+                        label: "Daily Sales (₹)",
+
+                        data: dailySalesValues,
+
+                        borderWidth: 3,
+
+                        tension: 0.3,
+
+                        fill: false,
+
+                        pointRadius: 5
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                return "₹" + value;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ========================================================
+    // SALES COMPARISON
+    // ========================================================
+
+    const salesComparisonCanvas =
+        document.getElementById("salesComparisonChart");
+
+
+    new Chart(
+        salesComparisonCanvas,
+        {
+
+            type: "bar",
+
+
+            data: {
+
+                labels: [
+
+                    "Today",
+
+                    "This Week",
+
+                    "This Month",
+
+                    "Overall"
+
+                ],
+
+
+                datasets: [
+
+                    {
+
+                        label: "Sales (₹)",
+
+
+                        data: [
+
+                            todaySales,
+
+                            weekSales,
+
+                            monthSales,
+
+                            overallSales
+
+                        ],
+
+
+                        borderWidth: 1
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                return "₹" + value;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ========================================================
+    // BILL COUNT
+    // ========================================================
+
+    const billCountCanvas =
+        document.getElementById("billCountChart");
+
+
+    new Chart(
+        billCountCanvas,
+        {
+
+            type: "doughnut",
+
+
+            data: {
+
+                labels: [
+
+                    "Today",
+
+                    "This Week",
+
+                    "This Month",
+
+                    "Overall"
+
+                ],
+
+
+                datasets: [
+
+                    {
+
+                        label: "Bills",
+
+
+                        data: [
+
+                            todayBills,
+
+                            weekBills,
+
+                            monthBills,
+
+                            overallBills
+
+                        ],
+
+
+                        borderWidth: 1
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

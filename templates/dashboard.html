@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SmartCart - Dashboard</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- SmartCart CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- Dashboard-specific styles -->
+
+    <style>
+
+        /* =========================================
+           SALES CHART
+        ========================================= */
+
+        .sales-chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+
+        /* =========================================
+           QUICK ACTIONS
+        ========================================= */
+
+        .quick-action {
+            text-decoration: none;
+        }
+
+
+        /* =========================================
+           RESPONSIVE CHART
+        ========================================= */
+
+        @media (max-width: 768px) {
+
+            .sales-chart-container {
+                height: 250px;
+            }
+
+        }
+
+    
+        /* Multi-store branding */
+        .topbar { position: relative; }
+        .store-name-heading {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 38%;
+            overflow-wrap: anywhere;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #111827;
+            line-height: 1.25;
+        }
+        @media (max-width: 900px) {
+            .store-name-heading {
+                position: static;
+                transform: none;
+                max-width: 100%;
+                margin: 0 0 12px;
+                text-align: left;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <!-- Logo -->
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            🛒
+        </div>
+
+        <div>
+
+            <h2>SmartCart</h2>
+
+            <span>
+                Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Navigation -->
+
+    <nav class="sidebar-nav">
+
+
+        <p class="nav-title">
+            MAIN MENU
+        </p>
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item active"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- Products -->
+
+        <a
+            href="{{ url_for('products') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-box"></i>
+
+            <span>
+                Products
+            </span>
+
+        </a>
+
+
+        <!-- Billing -->
+
+        <a
+            href="{{ url_for('billing') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+            <span>
+                Billing
+            </span>
+
+        </a>
+
+
+        <!-- Billing History -->
+
+        <a
+            href="{{ url_for('billing_history') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            <span>
+                Billing History
+            </span>
+
+        </a>
+
+
+        <!-- Sales -->
+
+        <a
+            href="{{ url_for('sales') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Sales
+            </span>
+
+        </a>
+
+
+        <!-- Reports -->
+
+        <a
+            href="{{ url_for('reports') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>
+                Reports
+            </span>
+
+        </a>
+
+
+        <!-- System -->
+
+        <p class="nav-title settings-title">
+            SYSTEM
+        </p>
+
+
+        <!-- Settings -->
+
+        <a
+            href="{{ url_for('settings') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>
+                Settings
+            </span>
+
+        </a>
+
+
+        <!-- Logout -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item logout-item"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- =================================================
+         TOP BAR
+    ================================================== -->
+
+    <header class="topbar">
+
+
+        <div>
+
+            <h1>
+                Dashboard
+            </h1>
+
+            <p>
+                Welcome back, {{ username }}!
+            </p>
+
+        </div>
+
+
+        <!-- User Profile -->
+
+        <div class="store-name-heading">{{ store_name }}</div>
+
+
+        <div class="user-profile">
+
+
+            <!-- Notification -->
+
+            <div class="notification">
+
+                <i class="fa-regular fa-bell"></i>
+
+            </div>
+
+
+            <!-- Avatar -->
+
+            <div class="profile-avatar">
+                A
+            </div>
+
+
+            <!-- User Information -->
+
+            <div class="profile-info">
+
+                <strong>
+                    {{ username }}
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         DASHBOARD CONTENT
+    ================================================== -->
+
+    <section class="dashboard-content">
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="stats-grid">
+
+
+            <!-- Today's Sales -->
+
+            <div class="stat-card">
+
+
+                <div class="stat-icon sales-icon">
+
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Today's Sales
+                    </span>
+
+                    <h2>
+                        ₹{{ "%.2f"|format(today_sales|float) }}
+                    </h2>
+
+
+                    <small>
+
+                        {% if today_sales|float > 0 %}
+
+                            Sales recorded today
+
+                        {% else %}
+
+                            No sales recorded
+
+                        {% endif %}
+
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Today's Orders -->
+
+            <div class="stat-card">
+
+
+                <div class="stat-icon orders-icon">
+
+                    <i class="fa-solid fa-receipt"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Today's Orders
+                    </span>
+
+                    <h2>
+                        {{ today_orders }}
+                    </h2>
+
+
+                    <small>
+
+                        {% if today_orders > 0 %}
+
+                            Orders received today
+
+                        {% else %}
+
+                            No orders today
+
+                        {% endif %}
+
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Total Products -->
+
+            <div class="stat-card">
+
+
+                <div class="stat-icon products-icon">
+
+                    <i class="fa-solid fa-box"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Total Products
+                    </span>
+
+                    <h2>
+                        {{ total_products }}
+                    </h2>
+
+                    <small>
+                        Products in inventory
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Customers -->
+
+            <div class="stat-card">
+
+
+                <div class="stat-icon customers-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <span>
+                        Customers
+                    </span>
+
+                    <h2>
+                        0
+                    </h2>
+
+                    <small>
+                        Customer management coming soon
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             LOWER DASHBOARD
+        ================================================== -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- =================================================
+                 SALES OVERVIEW
+            ================================================== -->
+
+            <div class="dashboard-card sales-overview">
+
+
+                <div class="card-header">
+
+
+                    <div>
+
+                        <h3>
+                            Sales Overview
+                        </h3>
+
+                        <p>
+                            Your sales performance for the last 7 days
+                        </p>
+
+                    </div>
+
+
+                    <!-- Currently informational -->
+
+                    <select>
+
+                        <option>
+                            Last 7 Days
+                        </option>
+
+                    </select>
+
+
+                </div>
+
+
+                <!-- Chart -->
+
+                <div class="sales-chart-container">
+
+                    <canvas id="dashboardSalesChart"></canvas>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <div class="dashboard-card">
+
+
+                <div class="card-header">
+
+
+                    <div>
+
+                        <h3>
+                            Quick Actions
+                        </h3>
+
+                        <p>
+                            Frequently used features
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <!-- Add Product -->
+
+                    <a
+                        href="{{ url_for('add_product') }}"
+                        class="quick-action"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        <span>
+                            Add Product
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Create Bill -->
+
+                    <a
+                        href="{{ url_for('billing') }}"
+                        class="quick-action"
+                    >
+
+                        <i class="fa-solid fa-file-invoice"></i>
+
+                        <span>
+                            Create Bill
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Sales -->
+
+                    <a
+                        href="{{ url_for('sales') }}"
+                        class="quick-action"
+                    >
+
+                        <i class="fa-solid fa-chart-column"></i>
+
+                        <span>
+                            View Sales
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Settings -->
+
+                    <a
+                        href="{{ url_for('settings') }}"
+                        class="quick-action"
+                    >
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     CHART.JS
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+    /*
+     * ================================================
+     * SALES DATA FROM FLASK
+     * ================================================
+     */
+
+    const salesLabels = [
+
+        {% for item in sales_overview %}
+
+            "{{ item.sale_date }}"
+
+            {% if not loop.last %}
+                ,
+            {% endif %}
+
+        {% endfor %}
+
+    ];
+
+
+    const salesValues = [
+
+        {% for item in sales_overview %}
+
+            {{ item.daily_sales|float }}
+
+            {% if not loop.last %}
+                ,
+            {% endif %}
+
+        {% endfor %}
+
+    ];
+
+
+
+    /*
+     * ================================================
+     * SALES CHART
+     * ================================================
+     */
+
+    const chartCanvas =
+        document.getElementById("dashboardSalesChart");
+
+
+    if (chartCanvas) {
+
+        const chartContext =
+            chartCanvas.getContext("2d");
+
+
+        new Chart(
+            chartContext,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels: salesLabels,
+
+                    datasets: [
+
+                        {
+
+                            label: "Daily Sales",
+
+                            data: salesValues,
+
+                            borderWidth: 3,
+
+                            tension: 0.4,
+
+                            fill: true,
+
+                            pointRadius: 4,
+
+                            pointHoverRadius: 6
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display: true
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+
+                            ticks: {
+
+                                callback: function(value) {
+
+                                    return "₹" + value;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+
+
+<!-- SmartCart JavaScript -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Billing - SmartCart</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- SmartCart CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        /* ========================================
+           PAYMENT OPTIONS
+        ======================================== */
+
+        .payment-option input {
+            display: none;
+        }
+
+        .payment-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding: 18px;
+
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            color: #374151;
+            font-weight: 600;
+
+            background: #ffffff;
+        }
+
+        .payment-option label i {
+            font-size: 24px;
+        }
+
+        .payment-option input:checked + label {
+            border-color: #4f46e5;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .payment-option label:hover {
+            border-color: #4f46e5;
+        }
+
+        /* ========================================
+           PAYMENT INFORMATION CARD
+        ======================================== */
+
+        .payment-method-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #374151;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- LOGO -->
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">
+                    🛒
+                </div>
+
+                <div>
+
+                    <h2>
+                        SmartCart
+                    </h2>
+
+                    <span>
+                        Management System
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="sidebar-nav">
+
+
+                <p class="nav-title">
+                    MAIN MENU
+                </p>
+
+
+                <!-- Dashboard -->
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <!-- Products -->
+
+                <a
+                    href="{{ url_for('products') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-box"></i>
+
+                    <span>
+                        Products
+                    </span>
+
+                </a>
+
+
+                <!-- Billing -->
+
+                <a
+                    href="{{ url_for('billing') }}"
+                    class="nav-item active"
+                >
+
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                    <span>
+                        Billing
+                    </span>
+
+                </a>
+
+
+                <!-- Billing History -->
+
+                <a
+                    href="{{ url_for('billing_history') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                    <span>
+                        Billing History
+                    </span>
+
+                </a>
+
+
+                <!-- Sales -->
+
+                <a
+                    href="{{ url_for('sales') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>
+                        Sales
+                    </span>
+
+                </a>
+
+
+                <!-- Reports -->
+
+                <a
+                    href="{{ url_for('reports') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-chart-pie"></i>
+
+                    <span>
+                        Reports
+                    </span>
+
+                </a>
+
+
+                <!-- SYSTEM -->
+
+                <p class="nav-title settings-title">
+                    SYSTEM
+                </p>
+
+
+                <!-- Settings -->
+
+                <a
+                    href="{{ url_for('settings') }}"
+                    class="nav-item"
+                >
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <!-- Logout -->
+
+                <a
+                    href="{{ url_for('logout') }}"
+                    class="nav-item logout-item"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </a>
+
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <main class="main-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>
+                        Billing
+                    </h1>
+
+                    <p>
+                        Create a new customer bill
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="window.location.reload()"
+                >
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    New Bill
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CUSTOMER INFORMATION
+            ================================================== -->
+
+            <div class="card mb-4">
+
+
+                <div class="card-header">
+
+                    <h5>
+
+                        <i class="fa-solid fa-user"></i>
+
+                        Customer Information
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="row">
+
+
+                        <div class="col-md-6">
+
+
+                            <label
+                                class="form-label"
+                                for="customerName"
+                            >
+                                Customer Name
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="customerName"
+                                class="form-control"
+                                placeholder="Enter customer name"
+                            >
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PRODUCT SEARCH
+            ================================================== -->
+
+            <div class="card mb-4">
+
+
+                <div class="card-header">
+
+                    <h5>
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Add Products
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="input-group">
+
+
+                        <span class="input-group-text">
+
+                            <i class="fa-solid fa-search"></i>
+
+                        </span>
+
+
+                        <input
+                            type="text"
+                            id="productSearch"
+                            class="form-control"
+                            placeholder="Search product by name or barcode..."
+                        >
+
+
+                    </div>
+
+
+                    <div
+                        id="productResults"
+                        class="mt-3"
+                    >
+
+                        <!-- Products will appear here -->
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CURRENT CART
+            ================================================== -->
+
+            <div class="card mb-4">
+
+
+                <div class="card-header">
+
+
+                    <h5>
+
+                        <i class="fa-solid fa-cart-shopping"></i>
+
+                        Current Bill
+
+                    </h5>
+
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="table-responsive">
+
+
+                        <table class="table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Price
+                                    </th>
+
+                                    <th>
+                                        Quantity
+                                    </th>
+
+                                    <th>
+                                        Total
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="cartTableBody">
+
+
+                                <tr id="emptyCart">
+
+                                    <td
+                                        colspan="5"
+                                        class="text-center"
+                                    >
+
+                                        <i class="fa-solid fa-cart-shopping"></i>
+
+                                        <p class="mt-2 mb-0">
+
+                                            No products added yet
+
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BILL SUMMARY
+            ================================================== -->
+
+            <div class="card bill-summary mb-4">
+
+
+                <div class="card-body">
+
+
+                    <div class="row justify-content-end">
+
+
+                        <div class="col-md-4">
+
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Subtotal
+                                </span>
+
+                                <strong id="subtotal">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+
+                            <hr>
+
+
+                            <div class="summary-row total-row">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong id="total">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAYMENT INFORMATION
+            ================================================== -->
+
+            <div class="card mb-4">
+
+
+                <div class="card-header">
+
+                    <h5>
+
+                        <i class="fa-solid fa-credit-card"></i>
+
+                        Payment Information
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="payment-method-title">
+
+                        Payment Method
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- CASH -->
+
+                        <div class="col-md-3">
+
+
+                            <div class="payment-option">
+
+
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentCash"
+                                    value="Cash"
+                                    checked
+                                >
+
+
+                                <label for="paymentCash">
+
+
+                                    <i
+                                        class="fa-solid fa-money-bill-wave"
+                                    ></i>
+
+
+                                    <span>
+                                        Cash
+                                    </span>
+
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- CARD -->
+
+                        <div class="col-md-3">
+
+
+                            <div class="payment-option">
+
+
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentCard"
+                                    value="Card"
+                                >
+
+
+                                <label for="paymentCard">
+
+
+                                    <i
+                                        class="fa-solid fa-credit-card"
+                                    ></i>
+
+
+                                    <span>
+                                        Card
+                                    </span>
+
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- UPI -->
+
+                        <div class="col-md-3">
+
+
+                            <div class="payment-option">
+
+
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentUpi"
+                                    value="UPI"
+                                >
+
+
+                                <label for="paymentUpi">
+
+
+                                    <i
+                                        class="fa-solid fa-mobile-screen-button"
+                                    ></i>
+
+
+                                    <span>
+                                        UPI
+                                    </span>
+
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- ONLINE PAYMENT -->
+
+                        <div class="col-md-3">
+
+
+                            <div class="payment-option">
+
+
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    id="paymentOnline"
+                                    value="Online"
+                                >
+
+
+                                <label for="paymentOnline">
+
+
+                                    <i
+                                        class="fa-solid fa-globe"
+                                    ></i>
+
+
+                                    <span>
+                                        Online Payment
+                                    </span>
+
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 GENERATE BILL
+            ================================================== -->
+
+            <div class="card bill-summary mb-4">
+
+
+                <div class="card-body">
+
+
+                    <div class="row justify-content-end">
+
+
+                        <div class="col-md-4">
+
+
+                            <button
+                                type="button"
+                                class="btn btn-success w-100"
+                                id="generateBillBtn"
+                            >
+
+                                <i class="fa-solid fa-file-invoice"></i>
+
+                                Generate Bill
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     BILLING JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+const productSearch =
+    document.getElementById("productSearch");
+
+
+const productResults =
+    document.getElementById("productResults");
+
+
+const cartTableBody =
+    document.getElementById("cartTableBody");
+
+
+let cart = [];
+
+
+
+/* ========================================
+   PRODUCT SEARCH
+======================================== */
+
+productSearch.addEventListener(
+    "input",
+    function () {
+
+
+        const searchText =
+            this.value.trim();
+
+
+        if (searchText.length === 0) {
+
+            productResults.innerHTML = "";
+
+            return;
+
+        }
+
+
+        fetch(
+            `/billing/search?q=${encodeURIComponent(searchText)}`
+        )
+
+
+        .then(
+            response => response.json()
+        )
+
+
+        .then(
+            products => {
+
+
+                if (products.error) {
+
+
+                    productResults.innerHTML = `
+
+                        <div class="alert alert-danger">
+
+                            ${products.error}
+
+                        </div>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+                if (products.length === 0) {
+
+
+                    productResults.innerHTML = `
+
+                        <div class="alert alert-warning">
+
+                            No products found.
+
+                        </div>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+                productResults.innerHTML =
+
+                    products.map(
+                        product => `
+
+                            <div class="product-search-result">
+
+                                <div>
+
+                                    <strong>
+                                        ${product.product_name}
+                                    </strong>
+
+
+                                    <small
+                                        class="d-block text-muted"
+                                    >
+
+                                        ${product.category}
+
+                                    </small>
+
+
+                                    <small class="d-block">
+
+                                        Price:
+
+                                        ₹${Number(
+                                            product.price
+                                        ).toFixed(2)}
+
+                                        &nbsp; | &nbsp;
+
+                                        Stock:
+
+                                        ${product.stock_quantity}
+
+                                        ${product.unit}
+
+                                    </small>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-sm"
+                                    onclick='addToCart(${JSON.stringify(product)})'
+                                >
+
+                                    <i class="fa-solid fa-plus"></i>
+
+                                    Add
+
+                                </button>
+
+                            </div>
+
+                        `
+                    ).join("");
+
+
+            }
+
+        )
+
+
+        .catch(
+            error => {
+
+
+                console.error(
+                    "Search error:",
+                    error
+                );
+
+
+                productResults.innerHTML = `
+
+                    <div class="alert alert-danger">
+
+                        Unable to search products.
+
+                    </div>
+
+                `;
+
+
+            }
+        );
+
+
+    }
+);
+
+
+
+/* ========================================
+   ADD PRODUCT TO CART
+======================================== */
+
+function addToCart(product) {
+    const existingProduct = cart.find(item => String(item.id) === String(product.id));
+    const availableStock = Number(product.stock_quantity);
+
+    if (!Number.isFinite(availableStock) || availableStock <= 0) {
+        alert("This product is out of stock.");
+        return;
+    }
+
+    if (existingProduct) {
+        // Adding the same product again adds one unit, while respecting stock.
+        const nextQuantity = existingProduct.quantity + 1;
+        if (nextQuantity > existingProduct.stock_quantity) {
+            alert(`Available stock: ${existingProduct.stock_quantity} ${existingProduct.unit}`);
+            return;
+        }
+        existingProduct.quantity = nextQuantity;
+    } else {
+        // Start at 1, or at the remaining stock if less than 1 is available.
+        cart.push({
+            id: product.id,
+            product_name: product.product_name,
+            price: Number(product.price),
+            stock_quantity: availableStock,
+            unit: product.unit || "unit",
+            quantity: Math.min(1, availableStock)
+        });
+    }
+
+    renderCart();
+}
+
+
+/* ========================================
+   DISPLAY CART
+======================================== */
+
+function renderCart() {
+
+
+    if (cart.length === 0) {
+
+
+        cartTableBody.innerHTML = `
+
+            <tr id="emptyCart">
+
+                <td
+                    colspan="5"
+                    class="text-center"
+                >
+
+                    <i
+                        class="fa-solid fa-cart-shopping"
+                    ></i>
+
+
+                    <p class="mt-2 mb-0">
+
+                        No products added yet
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        updateTotals();
+
+
+        return;
+
+    }
+
+
+
+    cartTableBody.innerHTML =
+
+        cart.map(
+            (item, index) => {
+
+
+                const itemTotal =
+                    item.price *
+                    item.quantity;
+
+
+                return `
+
+                    <tr>
+
+
+                        <td>
+
+                            <strong>
+
+                                ${item.product_name}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            ₹${item.price.toFixed(2)}
+
+                        </td>
+
+
+                        <td>
+
+
+                            <div class="quantity-control d-flex align-items-center gap-2">
+                                <input
+                                    type="number"
+                                    min="0.001"
+                                    step="0.001"
+                                    value="${item.quantity}"
+                                    onchange="updateQuantity(${index}, this.value)"
+                                    onkeydown="if (event.key === 'Enter') this.blur()"
+                                    class="form-control form-control-sm"
+                                    style="width: 100px;"
+                                    aria-label="Quantity for ${item.product_name}"
+                                >
+                                <small class="text-muted">${item.unit}</small>
+                            </div>
+
+
+                        </td>
+
+
+                        <td>
+
+                            ₹${itemTotal.toFixed(2)}
+
+                        </td>
+
+
+                        <td>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-danger btn-sm"
+                                onclick="removeFromCart(${index})"
+                            >
+
+                                <i
+                                    class="fa-solid fa-trash"
+                                ></i>
+
+                            </button>
+
+
+                        </td>
+
+
+                    </tr>
+
+                `;
+
+
+            }
+        ).join("");
+
+
+    updateTotals();
+
+}
+
+
+
+/* ========================================
+   UPDATE DECIMAL QUANTITY
+======================================== */
+
+function updateQuantity(index, value) {
+    const item = cart[index];
+    const quantity = Number(value);
+
+    if (!Number.isFinite(quantity) || quantity <= 0) {
+        alert("Quantity must be a valid number greater than zero.");
+        renderCart();
+        return;
+    }
+
+    if (quantity > item.stock_quantity) {
+        alert(`Available stock: ${item.stock_quantity} ${item.unit}`);
+        renderCart();
+        return;
+    }
+
+    // bill_items.quantity is DECIMAL(10,3), so allow up to 3 decimal places.
+    if (Math.abs(quantity - Number(quantity.toFixed(3))) > 1e-9) {
+        alert("Please enter no more than 3 decimal places.");
+        renderCart();
+        return;
+    }
+
+    item.quantity = quantity;
+    renderCart();
+}
+
+
+
+/* ========================================
+   REMOVE PRODUCT
+======================================== */
+
+function removeFromCart(index) {
+
+
+    cart.splice(
+        index,
+        1
+    );
+
+
+    renderCart();
+
+}
+
+
+
+/* ========================================
+   UPDATE TOTALS
+======================================== */
+
+function updateTotals() {
+
+
+    let subtotal = 0;
+
+
+    cart.forEach(
+        item => {
+
+            subtotal +=
+                item.price *
+                item.quantity;
+
+        }
+    );
+
+
+    document.getElementById(
+        "subtotal"
+    ).textContent =
+
+        `₹${subtotal.toFixed(2)}`;
+
+
+    document.getElementById(
+        "total"
+    ).textContent =
+
+        `₹${subtotal.toFixed(2)}`;
+
+}
+
+
+
+/* ========================================
+   GET SELECTED PAYMENT METHOD
+======================================== */
+
+function getPaymentMethod() {
+
+
+    const selectedPayment =
+        document.querySelector(
+            'input[name="paymentMethod"]:checked'
+        );
+
+
+    if (!selectedPayment) {
+
+        return "Cash";
+
+    }
+
+
+    return selectedPayment.value;
+
+}
+
+
+
+/* ========================================
+   GENERATE BILL
+======================================== */
+
+const generateBillButton =
+    document.getElementById(
+        "generateBillBtn"
+    );
+
+
+if (generateBillButton) {
+
+
+    generateBillButton.addEventListener(
+        "click",
+        function () {
+
+
+            const customerName =
+
+                document.getElementById(
+                    "customerName"
+                ).value.trim();
+
+
+
+            /* CHECK CART */
+
+            if (cart.length === 0) {
+
+
+                alert(
+                    "Please add at least one product."
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* GET PAYMENT METHOD */
+
+            const paymentMethod =
+                getPaymentMethod();
+
+
+
+            /* DISABLE BUTTON */
+
+            generateBillButton.disabled =
+                true;
+
+
+            generateBillButton.innerHTML = `
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Creating Bill...
+
+            `;
+
+
+
+            /* BILL DATA */
+
+            const billData = {
+
+
+                customer_name:
+                    customerName,
+
+
+                cart:
+                    cart.map(
+                        item => ({
+
+                            id:
+                                item.id,
+
+                            quantity:
+                                item.quantity
+
+                        })
+                    ),
+
+
+                /*
+                 * Payment method will be
+                 * connected to Flask in Step 8.3.
+                 *
+                 * For now we keep it
+                 * available in JavaScript.
+                 */
+
+                payment_method:
+                    paymentMethod
+
+            };
+
+
+
+            /* SEND BILL */
+
+            fetch(
+                "/billing/create",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            billData
+                        )
+
+                }
+            )
+
+
+            .then(
+                response =>
+                    response.json()
+            )
+
+
+            .then(
+                data => {
+
+
+                    if (!data.success) {
+
+
+                        alert(
+                            data.message
+                        );
+
+
+                        return;
+
+                    }
+
+
+
+                    /* OPEN RECEIPT */
+
+                    window.location.href =
+                        `/billing/receipt/${data.bill_id}`;
+
+
+                }
+            )
+
+
+            .catch(
+                error => {
+
+
+                    console.error(
+                        "Bill creation error:",
+                        error
+                    );
+
+
+                    alert(
+                        "Something went wrong while creating the bill."
+                    );
+
+
+                }
+            )
+
+
+            .finally(
+                () => {
+
+
+                    generateBillButton.disabled =
+                        false;
+
+
+                    generateBillButton.innerHTML = `
+
+                        <i class="fa-solid fa-file-invoice"></i>
+
+                        Generate Bill
+
+                    `;
+
+
+                }
+            );
+
+
+        }
+    );
+
+}
+
+
+</script>
+
+
+<!-- SmartCart JavaScript -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}"
+></script>
+
+
+</body>
+
+</html>

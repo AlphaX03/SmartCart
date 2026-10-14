@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SmartCart - Settings</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- SmartCart CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        /* =========================================
+           SETTINGS PAGE
+        ========================================= */
+
+        .settings-content {
+            padding: 10px 0 30px 0;
+        }
+
+        .settings-page-header {
+            margin-bottom: 25px;
+        }
+
+        .settings-page-header h1 {
+            margin-bottom: 6px;
+        }
+
+        .settings-page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .settings-section {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .settings-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .settings-section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 18px;
+        }
+
+        .settings-section-header h3 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .settings-section-header p {
+            margin: 3px 0 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .settings-form-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .settings-input,
+        .settings-select,
+        .settings-textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            padding: 11px 13px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+            background: #ffffff;
+        }
+
+        .settings-input:focus,
+        .settings-select:focus,
+        .settings-textarea:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.10);
+        }
+
+        .settings-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .settings-help {
+            display: block;
+            margin-top: 6px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .save-settings-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 5px;
+        }
+
+        .save-settings-btn {
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .save-settings-btn:hover {
+            background: #4338ca;
+        }
+
+        .system-info {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .system-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .system-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .system-info-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .system-info-value {
+            color: #111827;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+
+            .settings-section {
+                padding: 18px;
+            }
+
+            .save-settings-wrapper {
+                justify-content: stretch;
+            }
+
+            .save-settings-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <!-- Logo -->
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            🛒
+        </div>
+
+        <div>
+
+            <h2>SmartCart</h2>
+
+            <span>
+                Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Navigation -->
+
+    <nav class="sidebar-nav">
+
+        <p class="nav-title">
+            MAIN MENU
+        </p>
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- Products -->
+
+        <a
+            href="{{ url_for('products') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-box"></i>
+
+            <span>
+                Products
+            </span>
+
+        </a>
+
+
+        <!-- Billing -->
+
+        <a
+            href="{{ url_for('billing') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+            <span>
+                Billing
+            </span>
+
+        </a>
+
+
+        <!-- Billing History -->
+
+        <a
+            href="{{ url_for('billing_history') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            <span>
+                Billing History
+            </span>
+
+        </a>
+
+
+        <!-- Sales -->
+
+        <a
+            href="{{ url_for('sales') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Sales
+            </span>
+
+        </a>
+
+
+        <!-- Reports -->
+
+        <a
+            href="{{ url_for('reports') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>
+                Reports
+            </span>
+
+        </a>
+
+
+        <!-- System -->
+
+        <p class="nav-title settings-title">
+            SYSTEM
+        </p>
+
+
+        <!-- Settings -->
+
+        <a
+    href="{{ url_for('settings') }}"
+    class="nav-item"
+>
+    <i class="fa-solid fa-gear"></i>
+    <span>Settings</span>
+</a>
+
+
+        <!-- Logout -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item logout-item"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage your SmartCart store and system preferences.
+            </p>
+
+        </div>
+
+
+        <div class="user-profile">
+
+            <!-- Notification -->
+
+            <div class="notification">
+
+                <i class="fa-regular fa-bell"></i>
+
+            </div>
+
+
+            <!-- Avatar -->
+
+            <div class="profile-avatar">
+                A
+            </div>
+
+
+            <!-- User Information -->
+
+            <div class="profile-info">
+
+                <strong>
+                    {{ username }}
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         SETTINGS CONTENT
+    ================================================== -->
+
+    <section class="settings-content">
+
+
+        <form method="POST">
+
+
+            <!-- =========================================
+                 STORE INFORMATION
+            ========================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div class="settings-section-icon">
+
+                        <i class="fa-solid fa-store"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Store Information
+                        </h3>
+
+                        <p>
+                            Update your grocery store information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- Store Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="settings-form-label">
+                            Store Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="store_name"
+                            class="settings-input"
+                            value="{{ settings.store_name }}"
+                            placeholder="Enter store name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="col-md-6">
+
+                        <label class="settings-form-label">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            class="settings-input"
+                            value="{{ settings.phone }}"
+                            placeholder="Enter phone number"
+                        >
+
+                    </div>
+
+
+                    <!-- Address -->
+
+                    <div class="col-md-12">
+
+                        <label class="settings-form-label">
+                            Store Address
+                        </label>
+
+                        <textarea
+                            name="store_address"
+                            class="settings-textarea"
+                            placeholder="Enter store address"
+                        >{{ settings.store_address }}</textarea>
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="col-md-6">
+
+                        <label class="settings-form-label">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="settings-input"
+                            value="{{ settings.email }}"
+                            placeholder="store@example.com"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 BILLING SETTINGS
+            ========================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div class="settings-section-icon">
+
+                        <i class="fa-solid fa-receipt"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Billing Settings
+                        </h3>
+
+                        <p>
+                            Configure basic billing preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- Currency -->
+
+                    <div class="col-md-6">
+
+                        <label class="settings-form-label">
+                            Currency
+                        </label>
+
+                        <select
+                            name="currency"
+                            class="settings-select"
+                        >
+
+                            <option
+                                value="₹"
+                                {% if settings.currency == '₹' %}
+                                    selected
+                                {% endif %}
+                            >
+                                ₹ - Indian Rupee
+                            </option>
+
+
+                            <option
+                                value="$"
+                                {% if settings.currency == '$' %}
+                                    selected
+                                {% endif %}
+                            >
+                                $ - US Dollar
+                            </option>
+
+
+                            <option
+                                value="€"
+                                {% if settings.currency == '€' %}
+                                    selected
+                                {% endif %}
+                            >
+                                € - Euro
+                            </option>
+
+
+                            <option
+                                value="£"
+                                {% if settings.currency == '£' %}
+                                    selected
+                                {% endif %}
+                            >
+                                £ - British Pound
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Low Stock Threshold -->
+
+                    <div class="col-md-6">
+
+                        <label class="settings-form-label">
+                            Low Stock Threshold
+                        </label>
+
+                        <input
+                            type="number"
+                            name="low_stock_threshold"
+                            class="settings-input"
+                            value="{{ settings.low_stock_threshold }}"
+                            min="0"
+                        >
+
+                        <span class="settings-help">
+                            Products at or below this quantity will be considered low stock.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 SYSTEM INFORMATION
+            ========================================== -->
+
+            <div class="settings-section">
+
+                <div class="settings-section-header">
+
+                    <div class="settings-section-icon">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            System Information
+                        </h3>
+
+                        <p>
+                            Current SmartCart system information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-info">
+
+
+                    <div class="system-info-row">
+
+                        <span class="system-info-label">
+                            Application
+                        </span>
+
+                        <span class="system-info-value">
+                            SmartCart
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-info-row">
+
+                        <span class="system-info-label">
+                            System
+                        </span>
+
+                        <span class="system-info-value">
+                            Grocery & Billing Management
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-info-row">
+
+                        <span class="system-info-label">
+                            Current User
+                        </span>
+
+                        <span class="system-info-value">
+                            {{ username }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-info-row">
+
+                        <span class="system-info-label">
+                            Currency
+                        </span>
+
+                        <span class="system-info-value">
+                            {{ settings.currency }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-info-row">
+
+                        <span class="system-info-label">
+                            Low Stock Threshold
+                        </span>
+
+                        <span class="system-info-value">
+                            {{ settings.low_stock_threshold }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 SAVE
+            ========================================== -->
+
+            <div class="save-settings-wrapper">
+
+                <button
+                    type="submit"
+                    class="save-settings-btn"
+                >
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- SmartCart JavaScript -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
+
+
+</body>
+
+</html>

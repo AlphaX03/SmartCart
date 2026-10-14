@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartCart - Login</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body class="login-body">
+
+    <div class="login-container">
+
+        <!-- Left Section -->
+        <div class="login-left">
+
+            <div class="brand-logo">
+                🛒
+            </div>
+
+            <h1>SmartCart</h1>
+
+            <p>
+                Smart Grocery & Billing Management System
+            </p>
+
+            <div class="login-feature">
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    <p>Manage your products easily</p>
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    <p>Create bills quickly</p>
+                </div>
+
+                <div class="feature-item">
+                    <span>✓</span>
+                    <p>Track your sales and reports</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Right Section -->
+        <div class="login-right">
+
+            <div class="login-box">
+
+                <h2>Welcome Back</h2>
+
+                <p class="login-subtitle">
+                    Login to your SmartCart account
+                </p>
+
+
+                {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+                {% endif %}
+
+
+                <form method="POST">
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+
+                <div class="demo-login">
+
+                    <p>Demo Login</p>
+
+                    <span>
+                        Username: <strong>admin</strong>
+                    </span>
+
+                    <span>
+                        Password: <strong>admin123</strong>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

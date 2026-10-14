@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SmartCart - Add Product</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                🛒
+            </div>
+
+            <div>
+
+                <h2>SmartCart</h2>
+
+                <span>
+                    Management System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-item"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('products') }}"
+                class="nav-item active"
+            >
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>
+                    Products
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <span>
+                    Billing
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Sales
+                </span>
+
+            </a>
+
+
+            <a
+    href="{{ url_for('reports') }}"
+    class="nav-item"
+>
+    <i class="fa-solid fa-chart-pie"></i>
+    <span>Reports</span>
+</a>
+
+
+            <p class="nav-title settings-title">
+                SYSTEM
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="nav-item logout-item"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Add Product
+                </h1>
+
+                <p>
+                    Add a new product to your inventory
+                </p>
+
+            </div>
+
+
+            <div class="user-profile">
+
+                <div class="notification">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                </div>
+
+
+                <div class="profile-avatar">
+                    A
+                </div>
+
+
+                <div class="profile-info">
+
+                    <strong>
+                        {{ session["username"] }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <section class="dashboard-content">
+
+
+            <div class="product-form-card">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Product Information
+                    </h2>
+
+                    <p>
+                        Enter the details of the new product.
+                    </p>
+
+                </div>
+
+
+                {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+                {% endif %}
+
+
+                <form
+                    method="POST"
+                    class="product-form"
+                >
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Product Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="product_name"
+                                placeholder="e.g. Basmati Rice"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Category
+                            </label>
+
+                            <select
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option value="Grocery">
+                                    Grocery
+                                </option>
+
+                                <option value="Dairy">
+                                    Dairy
+                                </option>
+
+                                <option value="Beverages">
+                                    Beverages
+                                </option>
+
+                                <option value="Snacks">
+                                    Snacks
+                                </option>
+
+                                <option value="Fruits">
+                                    Fruits
+                                </option>
+
+                                <option value="Vegetables">
+                                    Vegetables
+                                </option>
+
+                                <option value="Personal Care">
+                                    Personal Care
+                                </option>
+
+                                <option value="Household">
+                                    Household
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Price (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="price"
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Stock Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                name="stock_quantity"
+                                class="form-control"
+                                min="0"
+                                step="any"
+                                required
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Unit
+                            </label>
+
+                            <select
+                                name="unit"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Unit
+                                </option>
+
+                                <option value="pcs">
+                                    Pieces
+                                </option>
+
+                                <option value="kg">
+                                    Kilogram
+                                </option>
+
+                                <option value="g">
+                                    Gram
+                                </option>
+
+                                <option value="litre">
+                                    Litre
+                                </option>
+
+                                <option value="ml">
+                                    Millilitre
+                                </option>
+
+                                <option value="pack">
+                                    Pack
+                                </option>
+
+                                <option value="box">
+                                    Box
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Barcode
+                            </label>
+
+                            <input
+                                type="text"
+                                name="barcode"
+                                placeholder="Optional"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{{ url_for('products') }}"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="save-button"
+                        >
+
+                            <i class="fa-solid fa-plus"></i>
+
+                            Add Product
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>

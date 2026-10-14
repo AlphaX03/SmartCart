@@ -1,0 +1,26 @@
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Local database backups and dumps
+smartcart_backup.sql
+*_backup.sql
+*.dump
+
+# Local logs
+*.log
+
+# Editor and operating system files
+.DS_Store
+Thumbs.db

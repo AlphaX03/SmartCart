@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reports - SmartCart</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- SmartCart CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <!-- LOGO -->
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            🛒
+        </div>
+
+        <div>
+
+            <h2>
+                SmartCart
+            </h2>
+
+            <span>
+                Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="sidebar-nav">
+
+
+        <p class="nav-title">
+            MAIN MENU
+        </p>
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+
+        <!-- Products -->
+
+        <a
+            href="{{ url_for('products') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-box"></i>
+
+            <span>
+                Products
+            </span>
+
+        </a>
+
+
+
+        <!-- Billing -->
+
+        <a
+            href="{{ url_for('billing') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+            <span>
+                Billing
+            </span>
+
+        </a>
+
+
+
+        <!-- Billing History -->
+
+        <a
+            href="{{ url_for('billing_history') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            <span>
+                Billing History
+            </span>
+
+        </a>
+
+
+
+        <!-- Sales -->
+
+        <a
+            href="{{ url_for('sales') }}"
+            class="nav-item"
+        >
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Sales
+            </span>
+
+        </a>
+
+
+
+        <!-- Reports -->
+
+        <a
+            href="{{ url_for('reports') }}"
+            class="nav-item active"
+        >
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>
+                Reports
+            </span>
+
+        </a>
+
+
+
+        <!-- SYSTEM -->
+
+        <p class="nav-title settings-title">
+            SYSTEM
+        </p>
+
+
+
+        <!-- Settings -->
+
+        <a
+    href="{{ url_for('settings') }}"
+    class="nav-item"
+>
+    <i class="fa-solid fa-gear"></i>
+
+    <span>
+        Settings
+    </span>
+</a>
+
+
+
+        <!-- Logout -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item logout-item"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+
+        <div>
+
+            <h1>
+                Reports
+            </h1>
+
+            <p>
+                Analyze your store's sales and product performance
+            </p>
+
+        </div>
+
+
+
+        <!-- USER -->
+
+        <div class="user-profile">
+
+
+            <div class="notification">
+
+                <i class="fa-regular fa-bell"></i>
+
+            </div>
+
+
+            <div class="profile-avatar">
+                A
+            </div>
+
+
+            <div class="profile-info">
+
+                <strong>
+                    Admin
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         REPORT CONTENT
+    ================================================== -->
+
+    <section class="dashboard-content">
+
+
+        <!-- PAGE TITLE -->
+
+        <div class="mb-4">
+
+            <h2 class="mb-1">
+                Reports Overview
+            </h2>
+
+            <p class="text-muted mb-0">
+                Get a detailed overview of your store's performance.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <!-- TOTAL SALES -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-icon sales-icon">
+
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            Total Sales
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(summary.total_sales) }}
+                        </h2>
+
+                        <small>
+                            Overall revenue
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL BILLS -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-icon orders-icon">
+
+                        <i class="fa-solid fa-file-invoice"></i>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            Total Bills
+                        </span>
+
+                        <h2>
+                            {{ summary.total_bills }}
+                        </h2>
+
+                        <small>
+                            Bills generated
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AVERAGE BILL -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-icon customers-icon">
+
+                        <i class="fa-solid fa-calculator"></i>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <span>
+                            Average Bill
+                        </span>
+
+                        <h2>
+                            ₹{{ "%.2f"|format(average_bill) }}
+                        </h2>
+
+                        <small>
+                            Average transaction value
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DAILY SALES REPORT
+        ================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <div class="col-12">
+
+                <div class="dashboard-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+
+                                <i
+                                    class="fa-solid fa-chart-line me-2"
+                                ></i>
+
+                                Daily Sales Report
+
+                            </h3>
+
+
+                            <p>
+                                Sales performance by date
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        style="
+                            position: relative;
+                            height: 350px;
+                        "
+                    >
+
+                        <canvas
+                            id="dailySalesReportChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             TOP PRODUCTS
+        ================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <div class="col-lg-5">
+
+                <div class="dashboard-card h-100">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+
+                                <i
+                                    class="fa-solid fa-trophy me-2"
+                                ></i>
+
+                                Top Selling Products
+
+                            </h3>
+
+
+                            <p>
+                                Best performing products
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        style="
+                            position: relative;
+                            height: 350px;
+                        "
+                    >
+
+                        <canvas
+                            id="topProductsChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT TABLE -->
+
+            <div class="col-lg-7">
+
+                <div class="dashboard-card h-100">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+
+                                <i
+                                    class="fa-solid fa-boxes-stacked me-2"
+                                ></i>
+
+                                Product Sales Report
+
+                            </h3>
+
+
+                            <p>
+                                Sales generated by each product
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="table-responsive">
+
+
+                        <table
+                            class="table table-hover align-middle"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        #
+                                    </th>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Quantity Sold
+                                    </th>
+
+                                    <th>
+                                        Revenue
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                {% if product_sales %}
+
+
+                                    {% for product in product_sales %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ loop.index }}
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                {{ product.product_name }}
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td>
+                                            {{ product.quantity_sold }}
+                                        </td>
+
+
+                                        <td>
+
+                                            ₹{{ "%.2f"|format(
+                                                product.revenue
+                                            ) }}
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+
+                                {% else %}
+
+
+                                    <tr>
+
+                                        <td
+                                            colspan="4"
+                                            class="text-center text-muted py-4"
+                                        >
+
+                                            No sales data available.
+
+                                        </td>
+
+                                    </tr>
+
+
+                                {% endif %}
+
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             TOP PRODUCTS SUMMARY
+        ================================================== -->
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+
+                        <i
+                            class="fa-solid fa-ranking-star me-2"
+                        ></i>
+
+                        Top 5 Products
+
+                    </h3>
+
+
+                    <p>
+                        Products generating the highest revenue
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row g-4">
+
+
+                {% if top_products %}
+
+
+                    {% for product in top_products %}
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+
+                        <div
+                            class="p-3 bg-light rounded h-100"
+                        >
+
+
+                            <div
+                                class="mb-2"
+                                style="font-size: 24px;"
+                            >
+
+                                {% if loop.index == 1 %}
+
+                                    🥇
+
+                                {% elif loop.index == 2 %}
+
+                                    🥈
+
+                                {% elif loop.index == 3 %}
+
+                                    🥉
+
+                                {% else %}
+
+                                    📦
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <small class="text-muted">
+
+                                Rank {{ loop.index }}
+
+                            </small>
+
+
+                            <h5 class="mt-2">
+
+                                {{ product.product_name }}
+
+                            </h5>
+
+
+                            <p class="mb-1">
+
+                                <strong>
+                                    {{ product.quantity_sold }}
+                                </strong>
+
+                                units sold
+
+                            </p>
+
+
+                            <p class="mb-0 text-muted">
+
+                                ₹{{ "%.2f"|format(
+                                    product.revenue
+                                ) }}
+
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+
+                    <div class="col-12">
+
+                        <div
+                            class="text-center text-muted py-4"
+                        >
+
+                            No product sales data available.
+
+                        </div>
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     CHART.JS
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+></script>
+
+
+
+<script>
+
+    // ========================================================
+    // DAILY SALES DATA
+    // ========================================================
+
+    const dailySalesLabels =
+        {{ daily_sales
+            | map(attribute='sale_date')
+            | map('string')
+            | list
+            | tojson
+        }};
+
+
+    const dailySalesValues =
+        {{ daily_sales
+            | map(attribute='daily_sales')
+            | map('float')
+            | list
+            | tojson
+        }};
+
+
+
+    // ========================================================
+    // TOP PRODUCT DATA
+    // ========================================================
+
+    const topProductLabels =
+        {{ top_products
+            | map(attribute='product_name')
+            | list
+            | tojson
+        }};
+
+
+    const topProductValues =
+        {{ top_products
+            | map(attribute='revenue')
+            | map('float')
+            | list
+            | tojson
+        }};
+
+
+
+    // ========================================================
+    // DAILY SALES CHART
+    // ========================================================
+
+    const dailySalesReportCanvas =
+        document.getElementById(
+            "dailySalesReportChart"
+        );
+
+
+    new Chart(
+        dailySalesReportCanvas,
+        {
+
+            type: "line",
+
+
+            data: {
+
+                labels: dailySalesLabels,
+
+
+                datasets: [
+
+                    {
+
+                        label: "Sales (₹)",
+
+                        data: dailySalesValues,
+
+                        borderWidth: 3,
+
+                        tension: 0.3,
+
+                        fill: false,
+
+                        pointRadius: 5
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                return "₹" + value;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    // ========================================================
+    // TOP PRODUCTS CHART
+    // ========================================================
+
+    const topProductsCanvas =
+        document.getElementById(
+            "topProductsChart"
+        );
+
+
+    new Chart(
+        topProductsCanvas,
+        {
+
+            type: "doughnut",
+
+
+            data: {
+
+                labels: topProductLabels,
+
+
+                datasets: [
+
+                    {
+
+                        label: "Revenue",
+
+                        data: topProductValues,
+
+                        borderWidth: 1
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
